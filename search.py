@@ -1,17 +1,6 @@
 import random
 import numpy as np
 
-# Generate random board state
-# tiles = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-# random.shuffle(tiles)
-# randomState = np.array(tiles).reshape(3, 3)
-
-temp = [4, 3, 8, 0, 1, 2, 5, 6, 7]
-randomState = np.array(temp).reshape(3, 3)
-
-print(randomState)
-
-
 # Swap 2 tiles (tile 1 index (row1, col1), tile 2 index (row2, col2))
 def swap(boardState, row1, col1, row2, col2):
     tempState = boardState.copy()
