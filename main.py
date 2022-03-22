@@ -3,11 +3,25 @@ import random
 
 
 # Generate random board state
-# tiles = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-# random.shuffle(tiles)
-# randomState = np.array(tiles).reshape(3, 3)
+tiles = ['0', '1', '2', '3', '4', '5', '6', '7', '8']
+random.shuffle(tiles)
+randomState = ''.join(tiles)
 
-temp = [4, 3, 8, 0, 1, 2, 5, 6, 7]
-# randomState = np.array(temp).reshape(3, 3)
-randomState = '438012567'
-DFS(randomState)
+print('Solving: ')
+printBoard(randomState)
+if not isSolvable(randomState):
+    print('This state is Unsolvable! (Odd number of inversions)')
+else:
+    print('Select Method:')
+    print('1) BFS')
+    print('2) DFS')
+    print('3) A*')
+    choice = input('Choice: ')
+    if choice == '1':
+        BFS(randomState)
+    elif choice == '2':
+        DFS(randomState)
+    else:
+        print('')
+
+
