@@ -21,7 +21,7 @@ def getElement(boardState, index):
 import numpy as np
 
 # temp = [4, 3, 8, 0, 1, 2, 5, 6, 7]
-randomState = 438012567
+randomState = '438012567'
 
 
 # Swap 2 tiles (tile 1 index (row1, col1), tile 2 index (row2, col2))
