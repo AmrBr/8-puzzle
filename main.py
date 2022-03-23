@@ -15,7 +15,8 @@ else:
     print('Select Method:')
     print('1) BFS')
     print('2) DFS')
-    print('3) A*')
+    print('3) A* (Manhattan Distance Heuristic)')
+    print('4) A* (Euclidean Distance Heuristic)')
     choice = input('Choice: ')
     if choice == '1':
         BFS(randomState)
@@ -23,5 +24,3 @@ else:
         DFS(randomState)
     else:
         print('')
-
-

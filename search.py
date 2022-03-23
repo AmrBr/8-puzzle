@@ -1,4 +1,5 @@
 import time
+import math
 
 
 # Count number of inversions in the given state
@@ -157,3 +158,30 @@ def DFS(boardState):
     print(f'DFS Running time = {time2 - time1} sec')  # Execution time = Ending time - Starting Time
     print('Starting Board State: ')
     printBoard(boardState)
+
+
+# Calculate Manhattan distance
+def manhattanHeuristic(boardState):
+    heuristic = 0
+    for i in range(len(boardState)):
+        mainRow = int(boardState[i]) // 3  # row index of element i in the goal state
+        mainCol = int(boardState[i]) % 3  # column index of element i in the goal state
+        row = i // 3  # row index of element i in the current state
+        col = i % 3  # column index of element i in the current state
+        if boardState[i] != '0':
+            heuristic += abs(mainRow - row) + abs(mainCol - col)
+    return heuristic
+
+
+# Calculate Euclidean distance
+def euclideanHeuristic(boardState):
+    heuristic = 0
+    for i in range(len(boardState)):
+        mainRow = int(boardState[i]) // 3  # row index of element i in the goal state
+        mainCol = int(boardState[i]) % 3  # column index of element i in the goal state
+        row = i // 3  # row index of element i in the current state
+        col = i % 3  # column index of element i in the current state
+        if boardState[i] != '0':
+            heuristic += math.sqrt(abs(mainRow - row) ** 2 + abs(mainCol - col) ** 2)
+    return heuristic
+
