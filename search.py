@@ -1,5 +1,14 @@
 import time
 import math
+import random
+
+
+# Generate random board state
+def generateRandomState():
+    tiles = ['0', '1', '2', '3', '4', '5', '6', '7', '8']
+    random.shuffle(tiles)
+    randomState = ''.join(tiles)
+    return randomState
 
 
 # Count number of inversions in the given state
@@ -92,25 +101,27 @@ def printBoard(boardState):
 
 # Breadth-First-Search Algorithm
 def BFS(boardState):
+    maxDep = 0
     time1 = time.time()  # Starting time
     frontier = []  # Frontier list
     oFrontier = set()  # Optimizing Frontier with datatype 'set()' rather than 'list' used to improve search time
     explored = set()
-    frontier.append(boardState)
+    frontier.append([boardState, 0])
     oFrontier.add(boardState)
     pMap = {boardState: boardState}  # Dictionary used to link each node with its parent in the form (child: parent)
     while len(frontier):
         state = frontier.pop(0)  # Pop first element from the list (to imitate queue)
-        oFrontier.remove(state)  # Remove the same element from the optimizing frontier set
-        explored.add(state)
-        if isGoal(state):  # if current state is the goal state --> break
+        oFrontier.remove(state[0])  # Remove the same element from the optimizing frontier set
+        explored.add(state[0])
+        if isGoal(state[0]):  # if current state is the goal state --> break
             break
-        children = getChildren(state)  # Get all children of current state
+        children = getChildren(state[0])  # Get all children of current state
         for child in children:
             if child not in oFrontier and child not in explored:  # search for each child in frontier and explored
-                frontier.append(child)  # if not found add child to frontier and oFrontier
+                maxDep = max(maxDep, state[1])  # maximum depth is the max of current max depth or level of current state
+                frontier.append([child, state[1] + 1])  # if not found add child to frontier and oFrontier
                 oFrontier.add(child)
-                pMap[child] = state  # Store the child with the current state as the parent node
+                pMap[child] = state[0]  # Store the child with the current state as the parent node
     time2 = time.time()  # Ending Time
     path = findPath(pMap)  # Traverse through the dictionary to find the path of the goal state
     path.reverse()
@@ -119,7 +130,7 @@ def BFS(boardState):
         printBoard(path[i])
     print(f'Cost of Path = {len(path) - 1}')  # cost of path equal number of state changes in path to goal state
     print(f'Number of Nodes Expanded = {len(explored)}')
-    print(f'Depth of Search = {len(path) - 1}')  # depth of search equal cost since the tree is checked level by level
+    print(f'Depth of Search = {maxDep}')  # depth of search equal cost since the tree is checked level by level
     print(f'BFS Running time = {time2 - time1} sec')  # Execution time = Ending time - Starting Time
     print('Starting Board State: ')
     printBoard(boardState)
@@ -127,25 +138,27 @@ def BFS(boardState):
 
 # Depth-First-Search Algorithm
 def DFS(boardState):
+    maximumDepth = 0
     time1 = time.time()  # Starting time
     frontier = []  # Frontier list
     oFrontier = set()  # Optimizing Frontier with datatype 'set()' rather than 'list' used to improve search time
     explored = set()
-    frontier.append(boardState)
+    frontier.append([boardState, 0])
     oFrontier.add(boardState)
     pMap = {boardState: boardState}  # Dictionary used to link each node with its parent in the form (child: parent)
     while len(frontier):
         state = frontier.pop()  # Pop last element from the list (to imitate stack)
-        oFrontier.remove(state)  # Remove the same element from the optimizing frontier set
-        explored.add(state)
-        if isGoal(state):  # if current state is the goal state --> break
+        oFrontier.remove(state[0])  # Remove the same element from the optimizing frontier set
+        explored.add(state[0])
+        if isGoal(state[0]):  # if current state is the goal state --> break
             break
-        children = getChildren(state)  # Get all children of current state
+        children = getChildren(state[0])  # Get all children of current state
         for child in children:
             if child not in oFrontier and child not in explored:  # search for each child in frontier and explored
-                frontier.append(child)  # if not found add child to frontier and oFrontier
+                maximumDepth = max(maximumDepth, state[1])  # maximum depth is the max of current max depth or level of current state
+                frontier.append([child, state[1] + 1])  # if not found add child to frontier and oFrontier
                 oFrontier.add(child)
-                pMap[child] = state
+                pMap[child] = state[0]
     time2 = time.time()  # Ending Time
     path = findPath(pMap)  # Traverse through the dictionary to find the path of the goal state
     path.reverse()
@@ -154,7 +167,7 @@ def DFS(boardState):
         printBoard(path[i])
     print(f'Cost of Path = {len(path) - 1}')  # cost of path equal number of state changes in path to goal state
     print(f'Number of Nodes Expanded = {len(explored)}')
-    print(f'Depth of Search = ')
+    print(f'Depth of Search = {maximumDepth}')
     print(f'DFS Running time = {time2 - time1} sec')  # Execution time = Ending time - Starting Time
     print('Starting Board State: ')
     printBoard(boardState)
@@ -184,4 +197,3 @@ def euclideanHeuristic(boardState):
         if boardState[i] != '0':
             heuristic += math.sqrt(abs(mainRow - row) ** 2 + abs(mainCol - col) ** 2)
     return heuristic
-
