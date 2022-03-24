@@ -30,7 +30,7 @@ def A_Star(boardState, heuristic, print_flag):
                 if temp > heuristic(child) + state[2] + 1:  # if total cost of child is smaller than the current cost
                     pMap[frontier[i][0]] = state[0]  # update child's parent
                     frontier[i][1] = heuristic(child) + state[2] + 1  # update child's total cost
-                    frontier[i][2] = state[2]  # update child's current level
+                    frontier[i][2] = state[2] + 1  # update child's current level
             elif child not in oFrontier and child not in explored:  # search for each child in frontier and explored
                 maxDep = max(maxDep,
                              state[2])  # maximum depth is the max of current max depth or level of current state
