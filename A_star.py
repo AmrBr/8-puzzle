@@ -7,14 +7,14 @@ import math
 def A_star(boardstate, heuristic):
     maxDep = 0
     Start_time = time.time()
-    frontier = []
-    oFrontier = set()
+    frontier = []   # Frontier list
+    oFrontier = set()   # Optimizing Frontier with datatype 'set()' rather than 'list' used to improve search time
     explored = set()
     frontier.append([boardstate, 0, 0]) #appending  boardstate, heuristic, depth
     oFrontier.add(boardstate)
     pMap = {boardstate: boardstate}
     while len(frontier):
-        frontier.sort(key=lambda x: x[1])
+        frontier.sort(key=lambda x: x[1])   #sorting heap ascendingly according to total cost
         state = frontier.pop(0)  # Pop first element from the list (to imitate queue)
         oFrontier.remove(state[0])  # Remove the same element from the optimizing frontier set
         explored.add(state[0])
@@ -22,12 +22,12 @@ def A_star(boardstate, heuristic):
             break
         children = getChildren(state[0])  # Get all children of current state
         for child in children:
-            if child not in oFrontier and child not in explored:  # search for each child in frontier and explored
+            if child in oFrontier:
+                temp=oFrontier.remove(child)
+                oFrontier.add(min(temp,child))
+            elif child not in oFrontier and child not in explored:  # search for each child in frontier and explored
                 maxDep = max(maxDep,state[2])  # maximum depth is the max of current max depth or level of current state
-                if heuristic == 'manhattan':
-                    frontier.append([child, manhattanHeuristic(child)+state[2]+1, state[2]+1])  # if not found add child to frontier and oFrontier
-                elif heuristic == 'euclidean':
-                    frontier.append([child, euclideanHeuristic(child)+state[2]+1, state[2]+1])  # if not found add child to frontier and oFrontier
+                frontier.append([child, heuristic(child)+state[2]+1, state[2]+1])  # if not found add child to frontier and oFrontier
                 oFrontier.add(child)
                 pMap[child] = state[0]  # Store the child with the current state as the parent node
     end_time = time.time()  # Ending Time
