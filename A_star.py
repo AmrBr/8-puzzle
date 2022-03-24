@@ -23,8 +23,12 @@ def A_star(boardstate, heuristic):
         children = getChildren(state[0])  # Get all children of current state
         for child in children:
             if child in oFrontier:
-                temp=oFrontier.remove(child)
-                oFrontier.add(min(temp,child))
+                temp=frontier.pop(frontier.index('child'))
+                compare=min(temp[1], heuristic(child)+state[2]+1)
+                if compare == temp[1]:
+                    frontier.append([temp[0],temp[1],temp[2]])
+                else:
+                    frontier.append([child, heuristic(child)+state[2]+1, state[2]+1])
             elif child not in oFrontier and child not in explored:  # search for each child in frontier and explored
                 maxDep = max(maxDep,state[2])  # maximum depth is the max of current max depth or level of current state
                 frontier.append([child, heuristic(child)+state[2]+1, state[2]+1])  # if not found add child to frontier and oFrontier
