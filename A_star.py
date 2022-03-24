@@ -19,6 +19,7 @@ def A_star(boardstate, heuristic):
     pMap = {boardstate: boardstate}
     while len(frontier):
         frontier.sort(key=lambda x: x[1])
+        #print(frontier)
         state = frontier.pop(0)  # Pop first element from the list (to imitate queue)
         oFrontier.remove(state[0])  # Remove the same element from the optimizing frontier set
         explored.add(state[0])
