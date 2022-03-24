@@ -4,10 +4,6 @@ import heapq
 import math
 
 
-def takeSecond(list):
-    return list[1]
-
-
 def A_star(boardstate, heuristic):
     maxDep = 0
     Start_time = time.time()
@@ -19,27 +15,26 @@ def A_star(boardstate, heuristic):
     pMap = {boardstate: boardstate}
     while len(frontier):
         frontier.sort(key=lambda x: x[1])
-        #print(frontier)
         state = frontier.pop(0)  # Pop first element from the list (to imitate queue)
         oFrontier.remove(state[0])  # Remove the same element from the optimizing frontier set
         explored.add(state[0])
         if isGoal(state[0]):  # if current state is the goal state --> break
-            #printBoard(state[0])
             break
         children = getChildren(state[0])  # Get all children of current state
         for child in children:
             if child not in oFrontier and child not in explored:  # search for each child in frontier and explored
                 maxDep = max(maxDep,state[2])  # maximum depth is the max of current max depth or level of current state
                 if heuristic == 'manhattan':
-                    frontier.append([child, manhattanHeuristic(state[0]), state[2]+1])  # if not found add child to frontier and oFrontier
+                    frontier.append([child, manhattanHeuristic(child)+state[2]+1, state[2]+1])  # if not found add child to frontier and oFrontier
                 elif heuristic == 'euclidean':
-                    frontier.append([child, euclideanHeuristic(state[0]), state[2]+1])  # if not found add child to frontier and oFrontier
+                    frontier.append([child, euclideanHeuristic(child)+state[2]+1, state[2]+1])  # if not found add child to frontier and oFrontier
                 oFrontier.add(child)
                 pMap[child] = state[0]  # Store the child with the current state as the parent node
     end_time = time.time()  # Ending Time
     path = findPath(pMap)  # Traverse through the dictionary to find the path of the goal state
     path.reverse()
     for i in range(len(path)):  # Print each state in the path
+        print(f'Step Number: {i + 1}')
         printBoard(path[i])
     print(f'Cost of Path = {len(path) - 1}')  # cost of path equal number of state changes in path to goal state
     print(f'Number of Nodes Expanded = {len(explored)}')

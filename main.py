@@ -5,12 +5,14 @@ while (True):
     print('How would you like to initialize the puzzle ?')
     print('1) Enter a puzzle to solve')
     print('2) initialize random puzzle')
+    print('3) exit program')
     initialize = input('Choice: ')
     if initialize == '1':
         randomState = input('Puzzle: ')
     elif initialize == '2':
         randomState = generateRandomState()
-
+    elif initialize == '3':
+        break
     print('Solving: ')
     printBoard(randomState)
     if not isSolvable(randomState):
