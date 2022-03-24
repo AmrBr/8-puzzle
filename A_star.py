@@ -4,17 +4,17 @@ import heapq
 import math
 
 
-def A_star(boardstate, heuristic):
+def A_Star(boardState, heuristic):
     maxDep = 0
     Start_time = time.time()
-    frontier = []   # Frontier list
-    oFrontier = set()   # Optimizing Frontier with datatype 'set()' rather than 'list' used to improve search time
+    frontier = []  # Frontier list
+    oFrontier = set()  # Optimizing Frontier with datatype 'set()' rather than 'list' used to improve search time
     explored = set()
-    frontier.append([boardstate, 0, 0]) #appending  boardstate, heuristic, depth
-    oFrontier.add(boardstate)
-    pMap = {boardstate: boardstate}
+    frontier.append([boardState, 0, 0])  # appending  boardstate, heuristic, depth
+    oFrontier.add(boardState)
+    pMap = {boardState: boardState}
     while len(frontier):
-        frontier.sort(key=lambda x: x[1])   #sorting heap ascendingly according to total cost
+        frontier.sort(key=lambda x: (x[1], x[0]))  # sorting heap ascendingly according to total cost
         state = frontier.pop(0)  # Pop first element from the list (to imitate queue)
         oFrontier.remove(state[0])  # Remove the same element from the optimizing frontier set
         explored.add(state[0])
@@ -23,22 +23,19 @@ def A_star(boardstate, heuristic):
         children = getChildren(state[0])  # Get all children of current state
         for child in children:
             if child in oFrontier:
-                temp=[]
+                temp = 0
                 for i in range(len(frontier)):
-                    if frontier[i][0]==child:
+                    if frontier[i][0] == child:
+                        temp = frontier[i][1]
                         break
-                        #temp=frontier[i].copy()
-                frontier[i]=[child,min(frontier[i][1],heuristic(child)+state[2]+1,)]
-
-                #temp=frontier.pop(frontier.index('child'))
-                compare=min(temp[1], heuristic(child)+state[2]+1)
-                if compare == temp[1]:
-                    frontier[i]([temp[0],temp[1],temp[2]])
-                else:
-                    frontier.append([child, heuristic(child)+state[2]+1, state[2]+1])
+                if temp > heuristic(child) + state[2] + 1:
+                    frontier[i][1] = heuristic(child) + state[2] + 1
+                    frontier[i][2] = state[2]
             elif child not in oFrontier and child not in explored:  # search for each child in frontier and explored
-                maxDep = max(maxDep,state[2])  # maximum depth is the max of current max depth or level of current state
-                frontier.append([child, heuristic(child)+state[2]+1, state[2]+1])  # if not found add child to frontier and oFrontier
+                maxDep = max(maxDep,
+                             state[2])  # maximum depth is the max of current max depth or level of current state
+                frontier.append([child, heuristic(child) + state[2] + 1,
+                                 state[2] + 1])  # if not found add child to frontier and oFrontier
                 oFrontier.add(child)
                 pMap[child] = state[0]  # Store the child with the current state as the parent node
     end_time = time.time()  # Ending Time
@@ -52,4 +49,4 @@ def A_star(boardstate, heuristic):
     print(f'Depth of Search = {maxDep}')  # depth of search equal cost since the tree is checked level by level
     print(f'A* Running time = {end_time - Start_time} sec')  # Execution time = Ending time - Starting Time
     print('Starting Board State: ')
-    printBoard(boardstate)
+    printBoard(boardState)

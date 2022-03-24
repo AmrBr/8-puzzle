@@ -1,6 +1,7 @@
 from search import *
 from A_star import *
 
+
 while (True):
     print('How would you like to initialize the puzzle ?')
     print('1) Enter a puzzle to solve')
@@ -32,3 +33,6 @@ while (True):
             A_star(randomState, manhattanHeuristic)
         elif choice == '4':
             A_star(randomState, euclideanHeuristic)
+
+
+

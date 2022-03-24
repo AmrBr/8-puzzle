@@ -129,3 +129,32 @@ def BFS(boardState):
     print(f'BFS Running time = {time2 - time1} sec')
     print('Starting Board State: ')
     printBoard(boardState)
+# ---------------------------------------------------------------------------
+def aStar(boardState, heuristic):
+    time1 = time.time()
+    frontier = []
+    oFrontier = set()
+    explored = set()
+    h = {boardState: heuristic(boardState)}
+    heapq.heappush(frontier, (heuristic(boardState), boardState))
+    oFrontier.add(boardState)
+    pMap = {boardState: (0, boardState)}
+    while len(frontier):
+        state = frontier.pop(0)
+        oFrontier.remove(state[1])
+        explored.add(state[1])
+        if isGoal(state[1]):
+            break
+        children = getChildren(state[1])
+        for child in children:
+            if child not in oFrontier and child not in explored:
+                h[child] = heuristic(child)
+                g = pMap[state[1]][0] + 1
+                heapq.heappush(frontier, (g + h[child], child))
+                oFrontier.add(child)
+                pMap[child] = state
+            if child in oFrontier:
+                g = pMap[state[1]][0] + 1
+                if g+h[child] < state[0]:
+                    frontier.remove()
+    time2 = time.time()
