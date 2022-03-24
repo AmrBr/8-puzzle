@@ -14,7 +14,7 @@ def A_star(boardstate, heuristic):
     frontier = []
     oFrontier = set()
     explored = set()
-    frontier.append([boardstate, 0])
+    frontier.append([boardstate, 0, 0]) #appending  boardstate, heuristic, depth
     oFrontier.add(boardstate)
     pMap = {boardstate: boardstate}
     while len(frontier):
@@ -29,11 +29,11 @@ def A_star(boardstate, heuristic):
         children = getChildren(state[0])  # Get all children of current state
         for child in children:
             if child not in oFrontier and child not in explored:  # search for each child in frontier and explored
-                maxDep = max(maxDep,state[1])  # maximum depth is the max of current max depth or level of current state
+                maxDep = max(maxDep,state[2])  # maximum depth is the max of current max depth or level of current state
                 if heuristic == 'manhattan':
-                    frontier.append([child, manhattanHeuristic(state[0])])  # if not found add child to frontier and oFrontier
+                    frontier.append([child, manhattanHeuristic(state[0]), state[2]+1])  # if not found add child to frontier and oFrontier
                 elif heuristic == 'euclidean':
-                    frontier.append([child, euclideanHeuristic(state[0])])  # if not found add child to frontier and oFrontier
+                    frontier.append([child, euclideanHeuristic(state[0]), state[2]+1])  # if not found add child to frontier and oFrontier
                 oFrontier.add(child)
                 pMap[child] = state[0]  # Store the child with the current state as the parent node
     end_time = time.time()  # Ending Time
