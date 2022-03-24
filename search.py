@@ -100,7 +100,7 @@ def printBoard(boardState):
 
 
 # Breadth-First-Search Algorithm
-def BFS(boardState):
+def BFS(boardState,print_flag):
     maxDep = 0
     time1 = time.time()  # Starting time
     frontier = []  # Frontier list
@@ -125,9 +125,10 @@ def BFS(boardState):
     time2 = time.time()  # Ending Time
     path = findPath(pMap)  # Traverse through the dictionary to find the path of the goal state
     path.reverse()
-    for i in range(len(path)):  # Print each state in the path
-        print(f'Step Number: {i + 1}')
-        printBoard(path[i])
+    if print_flag == '1':
+        for i in range(len(path)):  # Print each state in the path
+            print(f'Step Number: {i + 1}')
+            printBoard(path[i])
     print(f'Cost of Path = {len(path) - 1}')  # cost of path equal number of state changes in path to goal state
     print(f'Number of Nodes Expanded = {len(explored)}')
     print(f'Depth of Search = {maxDep}')  # depth of search equal cost since the tree is checked level by level
@@ -137,7 +138,7 @@ def BFS(boardState):
 
 
 # Depth-First-Search Algorithm
-def DFS(boardState):
+def DFS(boardState,print_flag):
     maximumDepth = 0
     time1 = time.time()  # Starting time
     frontier = []  # Frontier list
@@ -162,9 +163,10 @@ def DFS(boardState):
     time2 = time.time()  # Ending Time
     path = findPath(pMap)  # Traverse through the dictionary to find the path of the goal state
     path.reverse()
-    for i in range(len(path)):  # Print each state in the path
-        print(f'Step Number: {i + 1}')
-        printBoard(path[i])
+    if print_flag == '1':
+        for i in range(len(path)):  # Print each state in the path
+            print(f'Step Number: {i + 1}')
+            printBoard(path[i])
     print(f'Cost of Path = {len(path) - 1}')  # cost of path equal number of state changes in path to goal state
     print(f'Number of Nodes Expanded = {len(explored)}')
     print(f'Depth of Search = {maximumDepth}')

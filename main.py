@@ -25,14 +25,18 @@ while (True):
         print('3) A* (Manhattan Distance Heuristic)')
         print('4) A* (Euclidean Distance Heuristic)')
         choice = input('Choice: ')
+        print('Do you want to print the steps ?')
+        print('1) Yes')
+        print('2) No')
+        steps = input('answer: ')
         if choice == '1':
-            BFS(randomState)
+            BFS(randomState,steps)
         elif choice == '2':
-            DFS(randomState)
+            DFS(randomState,steps)
         elif choice == '3':
-            A_star(randomState, manhattanHeuristic)
+            A_Star(randomState, manhattanHeuristic,steps)
         elif choice == '4':
-            A_star(randomState, euclideanHeuristic)
+            A_Star(randomState, euclideanHeuristic,steps)
 
 
 
