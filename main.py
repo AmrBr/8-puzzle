@@ -1,6 +1,14 @@
 from search import *
+from A_star import *
 
-randomState = generateRandomState()
+print('How would you like to initialize the puzzle ?')
+print('1) Enter a puzzle to solve')
+print('2) initialize random puzzle')
+initialize =input('Choice: ')
+if initialize == '1':
+    randomState =input('Puzzle: ')
+elif initialize == '2':
+    randomState = generateRandomState()
 
 print('Solving: ')
 printBoard(randomState)
@@ -17,5 +25,7 @@ else:
         BFS(randomState)
     elif choice == '2':
         DFS(randomState)
+    elif choice == '3':
+        A_star(randomState)
     else:
         print('')
