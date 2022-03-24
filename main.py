@@ -30,5 +30,5 @@ while (True):
             DFS(randomState)
         elif choice == '3':
             A_star(randomState, manhattanHeuristic)
-        elif:
+        elif choice == '4':
             A_star(randomState, euclideanHeuristic)
